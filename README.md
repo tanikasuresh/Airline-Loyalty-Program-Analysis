@@ -117,6 +117,20 @@ HAVING years_of_inactivity = 2;
 Member_Count
 824
 ```
-
 The following query identifies active members who have had no flight activity in 2017 and 2018 but joined prior to 2016, indicating that they have been members for at least a year by January 2017. These customers should be classified as inactive, and marketing efforts, including emails and special offers, should be made to re-engage these customers.
 #
+
+7) What are the most prominent demographics of Active members who are inactive?
+
+```sql
+SELECT Gender, Education, Marital_Status, COUNT(*) AS Member_Count FROM (SELECT n.loyalty_number, gender, education, marital_status FROM active_no_annual_flights n
+INNER JOIN customer_loyalty_history c ON c.loyalty_number=n.loyalty_number
+WHERE enrollment_year < 2016
+GROUP BY n.loyalty_number, gender, education, marital_status
+HAVING count(*) = 2) AS X
+GROUP BY Gender, Education, Marital_Status
+ORDER BY Member_Count DESC;
+```
+
+
+
