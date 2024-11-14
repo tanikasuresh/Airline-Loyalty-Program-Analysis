@@ -59,7 +59,7 @@ ORDER BY Average_CLV DESC) AS X;
 6) What is the average number of flights for each combination of demographics (Gender, Education, Marital Status)?
 ```sql
 SELECT Gender, Education, Marital_Status, ROUND(AVG(Total_Flights)) AS Average_Flights
-FROM (SELECT f.Loyalty_Number, Gender, Education, Marital_Status, SUM(Total_Flights) AS Total_Flights
+FROM (SELECT f.Loyalty_Number,Gender, Education, Marital_Status, SUM(Total_Flights) AS Total_Flights
 FROM customer_flight_activity f
 INNER JOIN customer_loyalty_history l ON f.Loyalty_Number=l.Loyalty_Number
 GROUP BY f.Loyalty_Number, Gender, Education, Marital_Status) AS X
