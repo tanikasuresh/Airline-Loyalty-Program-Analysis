@@ -62,15 +62,17 @@ The query results show that annual enrollments have increased the most during 20
 
 4) What was the number of enrollments during the 2018 Promotion Period and how did it differ from the number of enrollments during the same months in previous years?
 ```sql
-SELECT '2018 Promotion (Feb - Apr)' AS Period, COUNT(*) AS Number_of_Enrollments
-FROM customer_loyalty_history
+WITH promotion_results AS
+(
+SELECT '2018 Promotion (Feb - Apr)' AS Period, COUNT(*) AS Number_of_Enrollments FROM customer_loyalty_history
 WHERE Enrollment_Type = '2018 Promotion'
 UNION
-SELECT 'Average for Previous Years (Feb - Apr)' AS Period, ROUND(AVG(Number_of_Enrollments))
-AS Average_Enrollment
-FROM (SELECT Enrollment_Year, COUNT(*) AS Number_of_Enrollments FROM customer_loyalty_history
+SELECT 'Average for Previous Years (Feb - Apr)' AS Period, ROUND(AVG(Number_of_Enrollments))AS Average_Enrollment FROM (SELECT Enrollment_Year, COUNT(*) AS Number_of_Enrollments FROM customer_loyalty_history
 WHERE Enrollment_Year BETWEEN '2013' AND '2017' AND Enrollment_Month BETWEEN 2 AND 4
-GROUP BY Enrollment_Year) AS X;
+GROUP BY Enrollment_Year) AS X
+)
+SELECT p1.*, CONCAT(ROUND((p1.number_of_enrollments-p2.number_of_enrollments)/p2.number_of_enrollments*100,2),'%') AS Percent_Change FROM promotion_results p1
+LEFT JOIN (SELECT * FROM promotion_results WHERE period = "Average for Previous Years (Feb - Apr)") p2 ON p1.Period != p2.Period;
 ```
 
 5) What is the average Customer Lifetime Value for different combinations of demographics (Gender, Education, Marital Status)?
