@@ -143,7 +143,8 @@ The following query identifies active members who have had no flight activity in
 <br /><br />
 
 ```sql
-SELECT Gender, Education, Marital_Status, COUNT(*) AS Member_Count FROM (SELECT n.loyalty_number, gender, education, marital_status
+SELECT Gender, Education, Marital_Status, COUNT(*) AS Member_Count
+FROM (SELECT n.loyalty_number, gender, education, marital_status
 FROM active_no_annual_flights n
 INNER JOIN customer_loyalty_history c ON c.loyalty_number=n.loyalty_number
 WHERE enrollment_year < 2016
