@@ -29,8 +29,8 @@ ORDER BY Member_Count DESC;
 
 3) What are the number of enrollments and cancellations for each year?
 ```sql
-SELECT enrollment_year AS Year, COUNT(enrollment_year) AS Number_of_Enrollments, COUNT(Cancellation_Year)
-AS Number_of_Cancellations FROM customer_loyalty_history
+SELECT enrollment_year AS Year, COUNT(enrollment_year) AS Number_of_Enrollments,
+COUNT(Cancellation_Year) AS Number_of_Cancellations FROM customer_loyalty_history
 GROUP BY Enrollment_Year
 ORDER BY Year;
 ```
