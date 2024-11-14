@@ -86,7 +86,8 @@ GROUP BY Enrollment_Year) AS X
 )
 SELECT p1.*, CONCAT(ROUND((p1.number_of_enrollments-p2.number_of_enrollments)/p2.number_of_enrollments*100,2),'%') AS Percent_Change
 FROM promotion_results p1
-LEFT JOIN (SELECT * FROM promotion_results WHERE period = "Average for Previous Years (Feb - Apr)") p2 ON p1.Period != p2.Period;
+LEFT JOIN (SELECT * FROM promotion_results WHERE period = "Average for Previous Years (Feb - Apr)") p2
+ON p1.Period != p2.Period;
 ```
 <img src = "https://github.com/user-attachments/assets/c5740a0a-9876-4fe1-a3e0-9a0d42752152" width = '550'>
 
