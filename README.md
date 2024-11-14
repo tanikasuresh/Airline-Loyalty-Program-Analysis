@@ -1,48 +1,15 @@
 ### The following data is Customer Loyalty Program from Northern Lights Air, a fictional airline based in Canada. The company held a promotion to improve program enrollment from February to April of 2018.
 #
 
-#### The following two Create Table statements are for the tables:
-
-```sql
-CREATE TABLE customer_loyalty_history
-(
-`Loyalty_Number` MEDIUMINT UNSIGNED,
-`Country` CHAR(6) DEFAULT "Canada",
-`Province` VARCHAR(20), 
-`City` VARCHAR(14),
-`Postal_Code` CHAR(7),
-`Gender` VARCHAR(6) CHECK (`Gender` IN ("Female", "Male")),
-`Education` VARCHAR(20) CHECK (`Education` IN ("Bachelor", "College", "Master", "High School or Below", "Doctor")),
-`Salary` MEDIUMINT UNSIGNED,
-`Marital_Status` VARCHAR(8) CHECK (`Marital_Status` IN ("Married", "Divorced", "Single")),
-`Loyalty_Card` VARCHAR(6),
-`CLV` DECIMAL(7,2) DEFAULT NULL,
-`Enrollment_Type` VARCHAR(14) CHECK (`Enrollment_Type` IN ("2018 Promotion", "Standard")),
-`Enrollment_Year` SMALLINT UNSIGNED NOT NULL,
-`Enrollment_Month` TINYINT UNSIGNED NOT NULL,
-`Cancellation_Year` SMALLINT UNSIGNED,
-`Cancellation_Month` TINYINT UNSIGNED,
-PRIMARY KEY (`Loyalty_Number`)
-);
-
-CREATE TABLE customer_flight_activity 
-(
-`Loyalty_Number` MEDIUMINT UNSIGNED,
-`Year` SMALLINT UNSIGNED,
-`Month` TINYINT UNSIGNED,
-`Total_Flights` TINYINT UNSIGNED,
-`Distance` MEDIUMINT UNSIGNED,
-`Points_Accumulated` MEDIUMINT UNSIGNED,
-`Points_Redeemed` SMALLINT UNSIGNED,
-`Dollar_Redeemed` TINYINT UNSIGNED,
-PRIMARY KEY (`Loyalty_Number`, `Year`, `Month`),
-FOREIGN KEY (`Loyalty_Number`) REFERENCES customer_loyalty_history (`Loyalty_Number`)
-);
-```
 ### The following Entity Relationship Diagram visualizes the tables and attributes in the data:
 ![Screenshot (56)](https://github.com/user-attachments/assets/7ab8c6c3-12c0-45e9-8151-c5bece0eb98d)
 
-## Analyzing the Data
+#### The following is a Tableau dashboard to summarize the data
+
+![Screenshot (57)](https://github.com/user-attachments/assets/6ddede46-4c57-4812-9d9c-17b6168566e3)
+
+
+## Analyzing the Data with SQL
 
 1) What are the number of Active and Former members for each membership type within the Loyalty Program? 
 ```sql
