@@ -18,8 +18,8 @@ Adding on, the two demographic groups that had the most number of cancellations 
 
 1) What are the number of Active and Former members for each membership type within the Loyalty Program? 
 ```sql
-SELECT X.*, CONCAT(ROUND(Member_Count/total*100,2), '%') AS Percent_Total FROM (SELECT Loyalty_Card, CASE
-WHEN Cancellation_Month IS NULL AND Cancellation_Year IS NULL THEN 'Active'
+SELECT X.*, CONCAT(ROUND(Member_Count/total*100,2), '%') AS Percent_Total FROM (SELECT Loyalty_Card,
+CASE WHEN Cancellation_Month IS NULL AND Cancellation_Year IS NULL THEN 'Active'
 ELSE 'Cancelled' END AS 'Status', COUNT(*) AS Member_Count FROM customer_loyalty_history
 GROUP BY Loyalty_Card, status) AS X
 INNER JOIN (SELECT loyalty_card, COUNT(*) AS total FROM customer_loyalty_history
