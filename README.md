@@ -29,7 +29,7 @@ ORDER BY Status DESC, Percent_Total DESC;
 <img src = "https://github.com/user-attachments/assets/de249a82-a753-4afc-82d9-96019a727be3" width = '350'>
 
 The query results show that among all types of Loyalty Cards available in the program, the Aurora Card has the highest percentage of cancellations, with approximately ~13% of all Aurora members having canceled their membership. However, this percentage is not cause for concern as it is similar to the cancellation percentages for other Loyalty Cards. It is evident that all Loyalty Cards have about 90% active enrollment and 10% cancellation status. 
-
+#
 2) What is the number of members who enrolled in the Loyalty Program in 2018 under the Standard Enrollment or during the 2018 Promotion for each membership type?
 ```sql
 SELECT Loyalty_Card, Enrollment_Type, COUNT(*) AS Member_Count FROM customer_loyalty_history
@@ -40,7 +40,7 @@ ORDER BY Enrollment_Type DESC, Member_Count DESC;
 <img src = "https://github.com/user-attachments/assets/1bbc13c3-bd10-4b7d-95a5-387194cdabd0" width = '350'>
 
 Here, we see that in 2018, the largest number of people who enrolled outside of and during the 2018 Promotion was for the Star Loyalty Card. On the other hand, the Aurora Loyalty Card had the least number of signups in both the regular year and the 2018 promotion period. I would recommend promoting the Aurora Loyalty Card with a similar campaign to increase member enrollment.
-
+#
 3) What are the number of enrollments and cancellations for each year?
 ```sql
 CREATE VIEW yearly_stats AS
@@ -59,7 +59,7 @@ LEFT JOIN yearly_stats y2 ON y1.year=y2.year+1;
 <img src = "https://github.com/user-attachments/assets/16aae529-b712-4070-bb66-9a16ef16c146" width = '550'>
 
 The query results show that annual enrollments have increased the most during 2018 in the past five years and that annual cancellations have continued to decrease in the past three years. Most notably, the rate of decrease is actually increasing, meaning that there have been fewer and fewer cancellations per year since 2016. To summarize, 2018 saw the largest number of enrollments and the smallest amount of cancellations.  
-
+#
 4) What was the number of enrollments during the 2018 Promotion Period and how did it differ from the number of enrollments during the same months in previous years?
 ```sql
 WITH promotion_results AS
@@ -74,7 +74,10 @@ GROUP BY Enrollment_Year) AS X
 SELECT p1.*, CONCAT(ROUND((p1.number_of_enrollments-p2.number_of_enrollments)/p2.number_of_enrollments*100,2),'%') AS Percent_Change FROM promotion_results p1
 LEFT JOIN (SELECT * FROM promotion_results WHERE period = "Average for Previous Years (Feb - Apr)") p2 ON p1.Period != p2.Period;
 ```
+<img src = "https://github.com/user-attachments/assets/c5740a0a-9876-4fe1-a3e0-9a0d42752152" width = '550'>
 
+Here, we can quantify the results of the 2018 Promotion from February to April. We see that there were 971 program enrollments during this period. We can also calculate that the average number of program enrollments from February to April in the past five years was 587. Therefore, the 2018 promotion boosted program enrollment from February to April by **~65% **.
+#
 5) What is the average Customer Lifetime Value for different combinations of demographics (Gender, Education, Marital Status)?
 ```sql
 SELECT Gender, Education, Marital_Status, CONCAT('$',FORMAT(Average_CLV,2)) AS Average_CLV FROM
@@ -83,33 +86,16 @@ GROUP BY Gender, Education, Marital_Status
 ORDER BY Average_CLV DESC) AS X;
 ```
 
-6) What is the average number of flights for each combination of demographics (Gender, Education, Marital Status)?
-```sql
-SELECT Gender, Education, Marital_Status, ROUND(AVG(Total_Flights)) AS Average_Flights
-FROM (SELECT f.Loyalty_Number,Gender, Education, Marital_Status, SUM(Total_Flights) AS Total_Flights
-FROM customer_flight_activity f
-INNER JOIN customer_loyalty_history l ON f.Loyalty_Number=l.Loyalty_Number
-GROUP BY f.Loyalty_Number, Gender, Education, Marital_Status) AS X
-GROUP BY Gender, Education, Marital_Status
-ORDER BY Average_Flights DESC;
-```
+<img src = "https://github.com/user-attachments/assets/6cadb960-31a9-4c55-86fa-128ccc642bc0" width = '550'>
+...............................................................................................................................................................
+<img src = "https://github.com/user-attachments/assets/30d89ab4-2a7c-4267-85ca-d544416ab856" width = '550'>
 
-7) Of the members who cancelled their enrollment, how many and how long were the former members in the program?
-```sql
-WITH cancelled_members AS
-(
-SELECT * FROM customer_loyalty_history
-WHERE cancellation_year IS NOT NULL AND cancellation_month IS NOT NULL
-)
-SELECT cancellation_year - enrollment_year AS Years_Enrolled, count(*) AS Member_Count
-FROM cancelled_members
-GROUP BY Years_Enrolled
-ORDER BY Member_Count DESC;
-```
+The following images show the top 5 and the bottom 5 results. From this, we can see that the customer demographic group that has the highest average Customer Lifetime Value is divorced men with, at most, a high school education. On the other hand, the customer demographics that have the least average CLV are single women with, at most, a high school education.
 
-8) How many members joined prior to 2017 but have not booked any flights in 2017 and 2018?
+#
+6) How many members joined prior to 2017 but have not booked any flights in 2017 and 2018?
 ```sql
-WITH active_no_annual_flights AS
+CREATE VIEW active_no_annual_flights AS
 (
 SELECT f.loyalty_number, year, sum(total_flights) AS flights
 FROM customer_flight_activity f
@@ -117,11 +103,20 @@ INNER JOIN customer_loyalty_history l ON l.loyalty_number=f.loyalty_number
 WHERE cancellation_year IS NOT NULL
 GROUP BY f.loyalty_number, year
 HAVING flights = 0
-)
-SELECT COUNT(*) AS Member_Count FROM (SELECT n.loyalty_number, count(*) as years_of_inactivity
+);
+
+SELECT n.loyalty_number, count(*) as years_of_inactivity
 FROM active_no_annual_flights n
 INNER JOIN customer_loyalty_history c ON c.loyalty_number=n.loyalty_number
-WHERE enrollment_year < 2017
+WHERE enrollment_year < 2016
 GROUP BY n.loyalty_number
-HAVING years_of_inactivity = 2) AS X;
+HAVING years_of_inactivity = 2;
 ```
+
+```
+Member_Count
+824
+```
+
+The following query identifies active members who have had no flight activity in 2017 and 2018 but joined prior to 2016, indicating that they have been members for at least a year by January 2017. These customers should be classified as inactive, and marketing efforts, including emails and special offers, should be made to re-engage these customers.
+#
