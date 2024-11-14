@@ -159,4 +159,9 @@ ORDER BY Member_Count DESC;
 Here, we see that married men and women with a bachelor's degree are primarily active members but have been inactive for the past two years. If you recall from the Tableau dashboard, these are the same two demographics that had the most cancellations among them. It seems that it is common for married men and women with a college education to either continue their membership but not book any flights or cancel their membership for the loyalty program. Either way, it seems that there are a lot of missed opportunities within these demographics, so it is worth targeting marketing efforts to increase activity and prevent cancellations. 
 #
 
-## Summary 
+## Notable Findings 
+- The number of enrollments in 2018 increased by ~21.03% from the previous year
+- The 2018 Promotion increased enrollment between February to April by ~65% compared to the average of previous years
+- The largest number of members who canceled their membership did so within the first two years of joining
+- There are 824 active members who had no flight activity in 2017 and 2018
+- The two most prominent groups that are inactive are married men and women with a college education
