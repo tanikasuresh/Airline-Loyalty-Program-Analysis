@@ -43,6 +43,13 @@ Here, we see that in 2018, the largest number of people who enrolled outside of 
 
 3) What are the number of enrollments and cancellations for each year?
 ```sql
+CREATE VIEW yearly_stats AS
+(
+SELECT enrollment_year AS Year, COUNT(enrollment_year) AS Number_of_Enrollments, COUNT(Cancellation_Year) AS Number_of_Cancellations FROM customer_loyalty_history
+GROUP BY Enrollment_Year
+ORDER BY Year
+);
+
 SELECT y1.year, y1.number_of_enrollments, 
 CONCAT(ROUND(((y1.number_of_enrollments-y2.number_of_enrollments)/y2.number_of_enrollments)*100,2),'%') AS Percent_Change, 
 y1.number_of_cancellations, CONCAT(ROUND(((y1.number_of_cancellations-y2.number_of_cancellations)/y2.number_of_cancellations*100),2), '%') AS Percent_Change FROM yearly_stats y1
