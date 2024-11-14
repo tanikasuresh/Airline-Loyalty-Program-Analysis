@@ -43,10 +43,10 @@ Here, we see that in 2018, the largest number of people who enrolled outside of 
 
 3) What are the number of enrollments and cancellations for each year?
 ```sql
-SELECT enrollment_year AS Year, COUNT(enrollment_year) AS Number_of_Enrollments,
-COUNT(Cancellation_Year) AS Number_of_Cancellations FROM customer_loyalty_history
-GROUP BY Enrollment_Year
-ORDER BY Year;
+SELECT y1.year, y1.number_of_enrollments, 
+CONCAT(ROUND(((y1.number_of_enrollments-y2.number_of_enrollments)/y2.number_of_enrollments)*100,2),'%') AS Percent_Change, 
+y1.number_of_cancellations, CONCAT(ROUND(((y1.number_of_cancellations-y2.number_of_cancellations)/y2.number_of_cancellations*100),2), '%') AS Percent_Change FROM yearly_stats y1
+LEFT JOIN yearly_stats y2 ON y1.year=y2.year+1;
 ```
 
 4) What was the number of enrollments during the 2018 Promotion Period and how did it differ from the number of enrollments during the same months in previous years?
