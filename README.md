@@ -41,7 +41,8 @@ SELECT '2018 Promotion (Feb - Apr)' AS Period, COUNT(*) AS Number_of_Enrollments
 FROM customer_loyalty_history
 WHERE Enrollment_Type = '2018 Promotion'
 UNION
-SELECT 'Average for Previous Years (Feb - Apr)' AS Period, ROUND(AVG(Number_of_Enrollments)) AS Average_Enrollment
+SELECT 'Average for Previous Years (Feb - Apr)' AS Period, ROUND(AVG(Number_of_Enrollments))
+AS Average_Enrollment
 FROM (SELECT Enrollment_Year, COUNT(*) AS Number_of_Enrollments FROM customer_loyalty_history
 WHERE Enrollment_Year BETWEEN '2013' AND '2017' AND Enrollment_Month BETWEEN 2 AND 4
 GROUP BY Enrollment_Year) AS X;
