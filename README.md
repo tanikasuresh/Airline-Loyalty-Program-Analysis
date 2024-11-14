@@ -37,7 +37,8 @@ ORDER BY Year;
 
 4) What was the number of enrollments during the 2018 Promotion Period and how did it differ from the number of enrollments during the same months in previous years?
 ```sql
-SELECT '2018 Promotion (Feb - Apr)' AS Period, COUNT(*) AS Number_of_Enrollments FROM customer_loyalty_history
+SELECT '2018 Promotion (Feb - Apr)' AS Period, COUNT(*) AS Number_of_Enrollments
+FROM customer_loyalty_history
 WHERE Enrollment_Type = '2018 Promotion'
 UNION
 SELECT 'Average for Previous Years (Feb - Apr)' AS Period, ROUND(AVG(Number_of_Enrollments)) AS Average_Enrollment
@@ -54,7 +55,7 @@ GROUP BY Gender, Education, Marital_Status
 ORDER BY Average_CLV DESC) AS X;
 ```
 
-6) What is the average number of flights for each combination of demogrpahics (Gender, Education, Marital Status)?
+6) What is the average number of flights for each combination of demographics (Gender, Education, Marital Status)?
 ```sql
 SELECT Gender, Education, Marital_Status, ROUND(AVG(Total_Flights)) AS Average_Flights
 FROM (SELECT f.Loyalty_Number, Gender, Education, Marital_Status, SUM(Total_Flights) AS Total_Flights
@@ -72,7 +73,8 @@ WITH cancelled_members AS
 SELECT * FROM customer_loyalty_history
 WHERE cancellation_year IS NOT NULL AND cancellation_month IS NOT NULL
 )
-SELECT cancellation_year - enrollment_year AS Years_Enrolled, count(*) AS Member_Count FROM cancelled_members
+SELECT cancellation_year - enrollment_year AS Years_Enrolled, count(*) AS Member_Count
+FROM cancelled_members
 GROUP BY Years_Enrolled
 ORDER BY Member_Count DESC;
 ```
@@ -81,13 +83,15 @@ ORDER BY Member_Count DESC;
 ```sql
 WITH active_no_annual_flights AS
 (
-SELECT f.loyalty_number, year, sum(total_flights) AS flights FROM customer_flight_activity f
+SELECT f.loyalty_number, year, sum(total_flights) AS flights
+FROM customer_flight_activity f
 INNER JOIN customer_loyalty_history l ON l.loyalty_number=f.loyalty_number
 WHERE cancellation_year IS NOT NULL
 GROUP BY f.loyalty_number, year
 HAVING flights = 0
 )
-SELECT COUNT(*) AS Member_Count FROM (SELECT n.loyalty_number, count(*) as years_of_inactivity FROM active_no_annual_flights n
+SELECT COUNT(*) AS Member_Count FROM (SELECT n.loyalty_number, count(*) as years_of_inactivity
+FROM active_no_annual_flights n
 INNER JOIN customer_loyalty_history c ON c.loyalty_number=n.loyalty_number
 WHERE enrollment_year < 2017
 GROUP BY n.loyalty_number
