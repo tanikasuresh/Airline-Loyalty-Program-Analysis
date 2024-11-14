@@ -47,7 +47,11 @@ SELECT y1.year, y1.number_of_enrollments,
 CONCAT(ROUND(((y1.number_of_enrollments-y2.number_of_enrollments)/y2.number_of_enrollments)*100,2),'%') AS Percent_Change, 
 y1.number_of_cancellations, CONCAT(ROUND(((y1.number_of_cancellations-y2.number_of_cancellations)/y2.number_of_cancellations*100),2), '%') AS Percent_Change FROM yearly_stats y1
 LEFT JOIN yearly_stats y2 ON y1.year=y2.year+1;
+
 ```
+<img src = "https://github.com/user-attachments/assets/16aae529-b712-4070-bb66-9a16ef16c146" width = '550'>
+
+The query results show that annual enrollments have increased the most during 2018 in the past five years and that annual cancellations have continued to decrease in the past three years. Most notably, the rate of decrease is actually increasing, meaning that there have been fewer and fewer cancellations per year since 2016. To summarize, 2018 saw the largest number of enrollments and the smallest amount of cancellations.  
 
 4) What was the number of enrollments during the 2018 Promotion Period and how did it differ from the number of enrollments during the same months in previous years?
 ```sql
