@@ -1,9 +1,5 @@
 ### The following data is the Customer Loyalty Program from Northern Lights Air, a fictional airline based in Canada. The company held a promotion to improve program enrollment from February to April of 2018.
 #
-The following Entity Relationship Diagram visualizes the tables and attributes in the data:
-<br /><br />
-<img src = "https://github.com/user-attachments/assets/7ab8c6c3-12c0-45e9-8151-c5bece0eb98d" width = '450'>
-<br /><br />
 The following is a Tableau dashboard to summarize the data
 <br /><br />
 ![Screenshot (57)](https://github.com/user-attachments/assets/6ddede46-4c57-4812-9d9c-17b6168566e3)
@@ -15,6 +11,11 @@ Other key findings relate to program cancellation. We can calculate how long eac
 Adding on, the two demographic groups that had the most number of cancellations were married women with a Bachelor's degree and married men with a Bachelor's degree. Further research would have to be done, but it would seem that being married and with a Bachelor's would indicate that members are not flying as often due to domestic and work commitments and therefore do not benefit from an airline loyalty program.
 <br /><br />
 ## Analyzing the Data with SQL
+
+The following Entity Relationship Diagram visualizes the tables and attributes in the data:
+<br /><br />
+<img src = "https://github.com/user-attachments/assets/7ab8c6c3-12c0-45e9-8151-c5bece0eb98d" width = '450'>
+<br /><br />
 
 1) What is the number of Active and Former members for each membership type within the Loyalty Program?
 <br /><br />
